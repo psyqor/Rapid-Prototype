@@ -1,0 +1,19 @@
+<%% model_class = <%= titleized_name %> %>
+<%% content_for(:title){ "#{model_class}"} %>
+
+<dl class="dl-horizontal">
+	<% @attributes.each do |attribute| %>
+	  <dt><strong><%%= model_class.human_attribute_name(:<%= attribute.name %>) %>:</strong></dt>
+	  <dd><%%= @<%= singular_name %>.<%= attribute.name %> %></dd>
+	<%- end -%>
+</dl>
+
+
+<div class="form-actions">
+	<%%= link_to 'Back', <%= plural_name %>_path, :class => 'btn'  %>
+	<%%= link_to "Edit", edit_<%= singular_name %>_path(@<%= singular_name %>), :class => 'btn' %>
+	<%%= link_to "Delete", <%= singular_name %>_path(@<%= singular_name %>),
+	:method => :delete, 
+	:confirm => 'Are you sure?',
+	:class => 'btn btn-danger' %>
+</div>

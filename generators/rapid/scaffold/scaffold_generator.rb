@@ -1,0 +1,115 @@
+require 'rails/generators/active_record'
+require 'rails/generators/migration'
+require 'tempfile'
+require 'fileutils'
+
+module Rapid
+    module Generators
+        class ScaffoldGenerator < Rails::Generators::NamedBase
+            include Rails::Generators::Migration
+            source_root File.expand_path('../templates', __FILE__)
+            check_class_collision
+
+            argument :model_attributes, :type => :array, :default => []
+
+            class_option :add_to_nav, :desc => 'Add a new tab to the navbar corresponding to the created model', :type => :boolean
+
+            def initialize (*args, &block)
+                super
+
+                @attributes = []
+
+                model_attributes.each do |attribute|
+                    @attributes << Rails::Generators::GeneratedAttribute.new(*attribute.split(":")) if attribute.include?(":")
+                end
+
+            end
+
+            def manifest
+                template "model.rb", "app/models/#{singular_name}.rb"
+                migration_template "migration.rb", "db/migrate/create_#{singular_name.pluralize.gsub('/', '_')}.rb"
+                template "controller.rb", "app/controllers/#{plural_name}_controller.rb"
+                ['_form','edit','index','new','show'].each {|method| template "views/#{method}.html.erb", "app/views/#{plural_name}/#{method}.html.erb"}
+
+                route "resources :#{plural_name}"
+            end
+
+            def add_to_nav
+                if(options.add_to_nav)
+                    navbar_path = "#{working_directory}/app/helpers/navbar_helper.rb"
+                    new_tab = "'#{plural_display_name}' => #{plural_name}_path}"
+                    temp_file = Tempfile.new(navbar_path)
+
+                    begin
+                      found_method = false
+                      tabs = "" # string form of the navbar tabs hash
+                      File.readlines(navbar_path).each do |line|
+                        if found_method
+                            if line.include?('end') # write the methods 'end' to file
+                                found_method = false 
+                                #write in the tabs
+                                if tabs.blank?
+                                    temp_file.puts('{'+new_tab)
+                                else
+                                    temp_file.puts(tabs.chop! + ', '+new_tab)
+                                end
+                                temp_file.puts(line)
+                            else
+                                tabs += line.chomp
+                            end
+                        else
+                            temp_file.puts(line)
+                        end
+                        found_method = true if line.include?('navbar_tabs')
+                      end
+                      temp_file.close
+                      FileUtils.mv(temp_file.path,navbar_path)
+                    ensure
+                      temp_file.delete
+                    end
+                end
+            end
+
+
+            def singular_name
+                name.underscore
+            end
+
+            def titleized_name
+                singular_name.titleize
+            end
+
+            def display_name
+                singular_name.humanize.downcase
+            end
+
+            def plural_name
+                name.underscore.pluralize
+            end
+            def plural_display_name
+                plural_name.humanize
+            end
+
+            def plural_class_name
+                plural_name.camelize
+            end
+
+            def class_name
+                name.camelize
+            end
+
+            def model_name
+                name.singularize.camelize
+            end
+            
+            def working_directory
+              Dir.pwd
+            end
+
+            def self.next_migration_number(path)
+                ActiveRecord::Generators::Base.next_migration_number(path)
+            end
+        end
+    end
+end
+

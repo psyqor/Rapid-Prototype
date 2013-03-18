@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> <%= content_for?(:title) ? yield(:title) : app_name %> </title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+</head>
+<body>
+  <%= render partial: "layouts/header" %>
+
+  <div class="container">
+
+   <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+   <% end %>
+
+  <% if content_for?(:title) %>
+    <div class="page-header">
+      <h1><%= yield :title %></h1>
+    </div>
+  <% end %>
+
+   <%= yield %>
+   
+ </div>
+
+ <%= render partial: "layouts/footer" %>
+
+
+ <!-- Javascripts -->
+ <!-- Placed at the end of the document so the pages load faster -->
+ <%= javascript_include_tag "application" %>
+
+</body>
+</html>

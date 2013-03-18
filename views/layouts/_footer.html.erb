@@ -1,0 +1,16 @@
+<footer>
+  <% if Rails.env.development? %>
+    <div class="accordion debug" id="debug-accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#debug-accordion" href="#collapseOne">Debug Info</a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <%= render partial: 'debug/debug' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</footer>

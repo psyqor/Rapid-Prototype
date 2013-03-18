@@ -1,0 +1,13 @@
+<div class = 'debug'>
+  <h4>Params</h4>
+  <%= debug(params.map {|key, element| {key => (key == 'password' ? '[REDACTED]' : element)} }) %>
+
+  <h4>Session</h4>
+  <%= debug(session) %>
+
+  <h4>Flash</h4>
+  <%= debug(flash) %>
+
+  <h4>Cookies</h4>
+  <%= debug(cookies) %>
+</div>

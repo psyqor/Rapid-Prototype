@@ -1,0 +1,21 @@
+Description:
+    The rapid:scaffold generator extends the rails scaffold by styling each view with twitter-bootstrap.
+    It is aimed to be used for rapid prototyping of model driven applications
+
+Example:
+    rails generate rapid:scaffold person name:string age:integer
+
+    This will create:
+        a new person model, database migration, controller and a set of CRUD views with twitter-bootstrap styling
+
+Extra functionality:
+	Adding a link to the navbar:
+	
+	    To add a link to the navbar corresponding to your new model just add the flag --add-to-nav
+	    e.g.  rails generate rapid:scaffold person name:string age:integer --add-to-nav
+	    
+	    Note: To delete this entry, you can find it in the helpers/navbar_helper/navbar_tabs
+	
+	Adding a link from the home page:
+	
+
