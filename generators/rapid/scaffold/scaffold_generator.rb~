@@ -74,7 +74,9 @@ module Rapid
             def add_to_home_page
                 if(options.add_to_home_page)
                     home_page_path = "#{working_directory}/app/views/static_pages/home.html.erb"
-                    home_page_item_html = "\n<%= render :partial => 'page_item', :locals => {title: '#{plural_display_name}', path: #{plural_name}_path} %>"
+                    item_name = plural_name
+                    item_path = "#{plural_name}_path"
+                    home_page_item_html = "<%= render :partial => 'page_item', :locals => {title: 'name', path: 'a path'} %>"
                     
                     File.open(home_page_path, 'a') do |file|
                         file.write home_page_item_html
@@ -82,6 +84,7 @@ module Rapid
                     
                 end
             end
+
 
             def singular_name
                 name.underscore

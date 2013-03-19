@@ -11,7 +11,9 @@
 <body>
   <%= render partial: "layouts/header" %>
 
-  <div class="container">
+<% unless controller_path == "static_pages"%>
+  <div class="container"> 
+<% end %>
 
    <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, :id => "flash_#{name}" %>
@@ -25,7 +27,9 @@
 
    <%= yield %>
    
+<% unless controller_path == "static_pages"%>
  </div>
+<% end %>
 
  <%= render partial: "layouts/footer" %>
 
