@@ -1,5 +1,5 @@
-<%% model_class = <%= titleized_name %> %>
-<%% content_for(:title){ "#{model_class}"} %>
+<%% model_class = <%= class_name %> %>
+<%% content_for(:title){ "<%= titleized_name %>"} %>
 
 <dl class="dl-horizontal">
 	<% @attributes.each do |attribute| %>

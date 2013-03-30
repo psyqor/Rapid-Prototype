@@ -1,4 +1,4 @@
-<%% model_class = <%= titleized_name %> %>
-<%% content_for(:title){ "New #{model_class}"} %>
+<%% model_class = <%= class_name %> %>
+<%% content_for(:title){ "New <%= titleized_name %>"} %>
 
 <%%= render :partial => 'form' %>
