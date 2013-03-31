@@ -4,7 +4,6 @@ run 'rm public/index.html'
 #install gems (including Twitter-Bootstrap for UI)
 gem 'bootstrap-sass', '~> 2.2.2.0'
 gem 'rails_bootstrap_easy_navbar'
-gem 'therubyracer'
 
 
 #Copy controllers, views, helpers, stylesheets and generators
